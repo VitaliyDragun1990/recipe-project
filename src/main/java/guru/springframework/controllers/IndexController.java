@@ -15,30 +15,14 @@ import java.util.Optional;
 @Controller
 public class IndexController {
 
-    private CategoryRepository categoryRepository;
-    private UnitOfMeasureRepository unitOfMeasureRepository;
     private RecipeService recipeService;
 
-    public IndexController(CategoryRepository categoryRepository,
-                           UnitOfMeasureRepository unitOfMeasureRepository,
-                           RecipeService recipeService) {
-        this.categoryRepository = categoryRepository;
-        this.unitOfMeasureRepository = unitOfMeasureRepository;
+    public IndexController(RecipeService recipeService) {
         this.recipeService = recipeService;
     }
 
-    @RequestMapping({"", "/", "index"})
-    public String getIndexPage() {
-        Optional<Category> categoryOptional = categoryRepository.findByDescription("American");
-        Optional<UnitOfMeasure> unitOfMeasureOptional = unitOfMeasureRepository.findByDescription("Teaspoon");
 
-        System.out.println("CA ID is: " + categoryOptional.get().getId());
-        System.out.println("UOM ID is: " + unitOfMeasureOptional.get().getId());
-
-        return "index";
-    }
-
-    @GetMapping("/recipes")
+    @GetMapping({"/", "/recipes"})
     public String showRecipes(Model model) {
         model.addAttribute("recipes", recipeService.getAllRecipes());
         return "recipes";

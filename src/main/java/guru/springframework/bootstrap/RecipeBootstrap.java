@@ -97,7 +97,6 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         // Note
         Notes guacamoleNotes = new Notes();
         guacamoleNotes.setRecipeNotes("Guacamole, a dip made from avocados, is originally from Mexico");
-        guacamoleNotes.setRecipe(guacamole);
 
         // Recipe
         guacamole.setDescription("The BEST guacamole!");
@@ -110,8 +109,9 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         guacamole.setSource("Simply Recipes");
         guacamole.setUrl("http://www.simplyrecipes.com/recipes/perfect_guacamole/");
         guacamole.setNotes(guacamoleNotes);
-        guacamole.getIngredients().addAll(Arrays.asList(avocado, kosherSalt, limeJuice, redUnion,
-                serranoChiles, cilantro, blackPepper, tomato));
+        guacamole.addIngredient(avocado).addIngredient(kosherSalt).addIngredient(limeJuice)
+                .addIngredient(redUnion).addIngredient(serranoChiles).addIngredient(cilantro)
+                .addIngredient(blackPepper).addIngredient(tomato);
 
         // save Guacamole recipe
         recipeRepository.save(guacamole);
@@ -185,7 +185,6 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         // Note
         Notes tacoNotes = new Notes();
         tacoNotes.setRecipeNotes("Spicy grilled chicken tacos!");
-        tacoNotes.setRecipe(chickenTacos);
 
         // Recipe
         chickenTacos.setDescription("Spicy grilled chicken tacos!");
@@ -198,9 +197,10 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         chickenTacos.setSource("Simply Recipes");
         chickenTacos.setUrl("http://www.simplyrecipes.com/recipes/spicy_grilled_chicken_tacos/");
         chickenTacos.setNotes(tacoNotes);
-        chickenTacos.getIngredients().addAll(Arrays.asList(anchoChiliPowder, driedOregano,
-                driedCumin, sugar, salt, cloveGarlic, orangeJuice, orangeZest, oliveOil,
-                chickenThigh));
+        chickenTacos.addIngredient(anchoChiliPowder).addIngredient(driedOregano)
+                .addIngredient(driedCumin).addIngredient(sugar).addIngredient(salt)
+                .addIngredient(cloveGarlic).addIngredient(orangeJuice).addIngredient(orangeZest)
+                .addIngredient(oliveOil).addIngredient(chickenThigh);
 
         // save Tacos recipe
         recipeRepository.save(chickenTacos);

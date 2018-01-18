@@ -1,17 +1,12 @@
 package guru.springframework.controllers;
 
-import guru.springframework.domain.Category;
-import guru.springframework.domain.UnitOfMeasure;
-import guru.springframework.repositories.CategoryRepository;
-import guru.springframework.repositories.UnitOfMeasureRepository;
 import guru.springframework.services.RecipeService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.Optional;
-
+@Slf4j
 @Controller
 public class IndexController {
 
@@ -24,7 +19,8 @@ public class IndexController {
 
     @GetMapping({"/", "/recipes"})
     public String showRecipes(Model model) {
-        model.addAttribute("recipes", recipeService.getAllRecipes());
+        log.debug("In /recipes route, going to show all existing recipes");
+        model.addAttribute("recipes", recipeService.getRecipes());
         return "recipes";
     }
 }

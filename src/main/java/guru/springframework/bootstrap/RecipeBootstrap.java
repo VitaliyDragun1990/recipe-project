@@ -4,13 +4,15 @@ import guru.springframework.domain.*;
 import guru.springframework.repositories.CategoryRepository;
 import guru.springframework.repositories.RecipeRepository;
 import guru.springframework.repositories.UnitOfMeasureRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 
+@Slf4j
 @Component
 public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEvent> {
 
@@ -25,15 +27,18 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
     }
 
     @Override
+    @Transactional
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         initData();
     }
 
-    private void  initData() {
+    private void initData() {
         // Retrieve category
+        log.debug("Going to retrieve categories");
         Category mexican = categoryRepository.findByDescription("Mexican").get();
 
         // Retrieve all needed units of measure
+        log.debug("Going to retrieve units of measure");
         UnitOfMeasure piece = unitRepository.findByDescription("Piece").get();
         UnitOfMeasure teaspoon = unitRepository.findByDescription("Teaspoon").get();
         UnitOfMeasure tablespoon = unitRepository.findByDescription("Tablespoon").get();
@@ -42,6 +47,7 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         UnitOfMeasure pint = unitRepository.findByDescription("Pint").get();
 
         /*************** GUACAMOLE **********************/
+        log.debug("Creating guacamole recipe");
 
         // Create recipe - Guacamole
         Recipe guacamole = new Recipe();
@@ -115,10 +121,12 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
 
         // save Guacamole recipe
         recipeRepository.save(guacamole);
+        log.debug("Guacamole recipe was created");
 
         /*************** CHICKEN TACOS **********************/
 
         // Create recipe - chicken tacos
+        log.debug("Going to create chicken tacos recipe");
         Recipe chickenTacos = new Recipe();
 
         // Ingredients
@@ -204,5 +212,6 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
 
         // save Tacos recipe
         recipeRepository.save(chickenTacos);
+        log.debug("Chicken tacos recipe was created");
     }
 }

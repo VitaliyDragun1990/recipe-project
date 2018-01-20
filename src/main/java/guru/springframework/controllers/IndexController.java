@@ -21,6 +21,6 @@ public class IndexController {
     public String showRecipes(Model model) {
         log.debug("In /recipes route, going to show all existing recipes");
         model.addAttribute("recipes", recipeService.getRecipes());
-        return "recipes";
+        return "index";
     }
 }

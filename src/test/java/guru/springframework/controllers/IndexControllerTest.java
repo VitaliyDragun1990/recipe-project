@@ -66,7 +66,7 @@ public class IndexControllerTest {
         ArgumentCaptor<Set<Recipe>> argumentCaptor = ArgumentCaptor.forClass(Set.class);
 
         // when
-        String path = controller.showRecipes(model);
+        String path = controller.getIndexPage(model);
 
         // then
         verify(recipeService, times(1)).getRecipes();

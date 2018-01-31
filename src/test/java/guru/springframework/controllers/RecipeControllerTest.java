@@ -2,6 +2,7 @@ package guru.springframework.controllers;
 
 import guru.springframework.commands.RecipeCommand;
 import guru.springframework.domain.Recipe;
+import guru.springframework.exceptions.NotFoundException;
 import guru.springframework.services.CategoryService;
 import guru.springframework.services.RecipeService;
 import org.junit.Before;
@@ -11,6 +12,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -36,7 +38,7 @@ public class RecipeControllerTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        controller = new RecipeController(recipeService, categoryService);
+        controller = new RecipeController(recipeService, categoryService );
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
 
@@ -51,6 +53,30 @@ public class RecipeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("recipe/show"))
                 .andExpect(model().attributeExists("recipe"));
+    }
+
+    @Test
+    public void testGetRecipeNotFound() throws Exception {
+        // given
+        when(recipeService.findById(anyLong())).thenThrow(NotFoundException.class);
+
+        // when
+        mockMvc.perform(get("/recipe/1/show"))
+                // then
+                .andExpect(status().isNotFound())
+                .andExpect(view().name("404error"))
+        ;
+
+    }
+
+    @Test
+    public void testGetRecipeBadRequest() throws Exception {
+        // when
+        mockMvc.perform(get("/recipe/sss/show"))
+                // then
+                .andExpect(status().isBadRequest())
+                .andExpect(view().name("400error"));
+
     }
 
     @Test

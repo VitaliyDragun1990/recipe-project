@@ -51,8 +51,8 @@ public class ImageController {
             byte[] byteArray = new byte[recipeCommand.getImage().length];
             int i = 0;
 
-            for (Byte wrapperdByte : recipeCommand.getImage()) {
-                byteArray[i++] = wrapperdByte;  // auto unboxing
+            for (Byte wrappedByte : recipeCommand.getImage()) {
+                byteArray[i++] = wrappedByte;  // auto unboxing
             }
 
             response.setContentType("image/jpeg");
